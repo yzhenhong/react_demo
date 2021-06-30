@@ -99,7 +99,7 @@ module.exports = function (webpackEnv) {
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
 
   // common function to get style loaders
-  const getStyleLoaders = (cssOptions, preProcessor) => {
+  const getStyleLoaders = (cssOptions,lessOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
@@ -113,6 +113,10 @@ module.exports = function (webpackEnv) {
       {
         loader: require.resolve('css-loader'),
         options: cssOptions,
+      },
+      {
+        loader: require.resolve('less-loader'),
+        options: lessOptions,
       },
       {
         // Options for PostCSS as we reference these options twice
@@ -538,30 +542,30 @@ module.exports = function (webpackEnv) {
             },
             {
               test: lessRegex,
-              exclude: lessModuleRegex,
+              exclude: cssModuleRegex,
               use: getStyleLoaders(
-                  {
-                    importLoaders: 2,
-                    // modules: true, 如果仅打开cssModule  那么原类名 将会没有前缀，无法与自己的样式类名关联，所以下边做法可取
-                    modules:{
-                      localIdentName: '[local]_[hash:base64:5]',
-                    },
-                    sourceMap: isEnvProduction && shouldUseSourceMap,
-                  },
-                  'less-loader'
+                {
+                  importLoaders: 1,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                },
+                'less-loader'
               ),
               sideEffects: true,
             },
             {
               test: lessModuleRegex,
               use: getStyleLoaders(
-                  {
-                    importLoaders: 2,
-                    sourceMap: isEnvProduction && shouldUseSourceMap,
-                    modules: true,
-                    getLocalIdent: getCSSModuleLocalIdent,
-                  },
-                  'less-loader'
+                {
+                  importLoaders: 1,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
+                'less-loader'
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
