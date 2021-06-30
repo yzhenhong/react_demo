@@ -5,7 +5,7 @@ interface Props {
 function Index(props: Props) {
     return (
         <div className="Index">
-            <div>Index</div>
+            Index
         </div>
     );
 

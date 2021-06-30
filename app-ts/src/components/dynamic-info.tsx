@@ -3,7 +3,7 @@ interface Props {
 }
 
 function DynamicInfo(props: Props) {
-  console.log('dynamic-info', props.schema)
+  // console.log('dynamic-info', props.schema)
   return (
     <div className="dynamic-info">
       <div>dynamic-info</div>

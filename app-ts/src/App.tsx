@@ -1,40 +1,31 @@
-import React, { useState, useEffect} from "react";
+import React from "react";
 import './App.css';
 
-import DynamicForm from './components/dynamic-form'
-import DynamicList from './components/dynamic-list'
-import DynamicInfo from './components/dynamic-info'
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+
+import Layout from './components/layout/index'
+
 
 
 function App() {
-  const initListData: Array<Object> = []
-  const [listData,setListData] = useState(initListData)
 
-  const [schema, setSchema] = useState<Object[]>([]);
-  
-  useEffect(()=>{
-  },[])
-
-  const submit = async () => {
-    console.log('submit')
-    let data = [
-      {
-        name: 'yzh'
-      }
-    ]
-    setListData(data)
-    setSchema(data)
-  }
-  
   return (
-    <div className="App" onClick={()=>{
-        submit()
-      }
-    }>
-      <DynamicForm/>
-      <DynamicList listData={listData}/>
-      <DynamicInfo schema={schema}/>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact render={() => {
+          return <Redirect to="/home/index" />
+        }} />
+        <Route path={["/home", "/example"]} component={Layout} />
+        <Route path='*' render={() => {
+          return <Redirect to="/home/index" />
+        }} />
+      </Switch>
+    </BrowserRouter>
   );
 
 }
