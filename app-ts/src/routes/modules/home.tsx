@@ -1,7 +1,7 @@
-import Index from '../../views/home/index'
+import { lazy } from 'react';
 
 const  homeRouterMap = [
-  { name:'index', path:'/home/index', component: Index },
+  { name:'index', path:'/home/index', component: lazy(() => import('../../views/home/index')) },
 ]
 
 export default  homeRouterMap

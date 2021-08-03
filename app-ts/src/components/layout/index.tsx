@@ -1,5 +1,6 @@
 import React from "react";
 import { LayoutHeader, LayoutSidebar, LayoutMain } from './components/index'
+import './index.less';
 
 function Layout() { 
   return (
